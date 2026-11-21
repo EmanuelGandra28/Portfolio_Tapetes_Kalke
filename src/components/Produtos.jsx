@@ -13,7 +13,11 @@ export default function Produtos({ produtos, base }) {
   useEffect(() => {
     const ler = () => {
       const m = window.location.hash.match(/^#linha-(\w+)$/);
-      if (m && linhas.includes(m[1])) setLinha(m[1]);
+      if (m && linhas.includes(m[1])) {
+        setLinha(m[1]);
+        // O link só muda o hash; leva o visitante até a grade para ele ver o filtro funcionando.
+        document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     };
     ler();
     window.addEventListener('hashchange', ler);

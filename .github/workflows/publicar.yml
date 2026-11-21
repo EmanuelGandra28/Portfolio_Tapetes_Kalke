@@ -38,6 +38,9 @@ jobs:
           # Endereço da API no Render (Settings > Secrets and variables > Actions > Variables).
           # Se a API não responder, o build falha e o site anterior continua no ar.
           API_URL: ${{ vars.API_URL }}
+          # Sem API_URL o build falha (para não publicar preços de exemplo). Para publicar só o exemplo de propósito,
+          # crie a variável PERMITIR_EXEMPLO com o valor 1.
+          PERMITIR_EXEMPLO: ${{ vars.PERMITIR_EXEMPLO }}
         run: npm run build
       - run: touch dist/.nojekyll
       - uses: actions/configure-pages@v5

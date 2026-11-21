@@ -23,10 +23,23 @@ export async function buscarComRetentativa(url, { tentativas = 12, espera = 1500
 // Deixa só o que o site pode mostrar, mesmo que a API mande campos a mais.
 export function normalizarCatalogo(resposta) {
   const corpo = resposta?.data ?? resposta ?? {};
-  const produtos = (Array.isArray(corpo.produtos) ? corpo.produtos : [])
+  // Resposta 200 em outro formato não pode virar um site vazio publicado em silêncio.
+  if (!Array.isArray(corpo.produtos)) throw new Error('A resposta do catálogo não trouxe a lista de produtos');
+  const produtos = corpo.produtos
     .filter((p) => p && typeof p.id === 'string' && p.id.trim() && typeof p.nome === 'string' && p.nome.trim() && MODOS.has(p.modo))
     .map((p) => Object.fromEntries(CAMPOS.map((c) => [c, p[c] ?? (c === 'fotos' ? [] : null)])));
   return { geradoEm: corpo.geradoEm ?? new Date().toISOString(), produtos };
+}
+
+// De onde vem o catálogo: "api" (produção) ou "exemplo" (só desenvolvimento). No GitHub Actions, sem API_URL
+// o build falha, para nunca publicar os preços fictícios do exemplo (a menos que PERMITIR_EXEMPLO=1).
+export function decidirOrigem(env) {
+  if ((env.API_URL ?? '').trim()) return 'api';
+  const noCi = Boolean(env.CI || env.GITHUB_ACTIONS);
+  if (noCi && env.PERMITIR_EXEMPLO !== '1') {
+    throw new Error('API_URL não está definida no repositório (Settings > Secrets and variables > Actions > Variables)');
+  }
+  return 'exemplo';
 }
 
 // Aceita tanto https://servidor quanto https://servidor/api/v1.

@@ -10,6 +10,10 @@ Os tapetes e as fotos vêm do Sistema Tapetes Kalke: a cada publicação o build
 - **Manual:** aba *Actions* → *Publicar site* → *Run workflow*.
 
 Se a API não responder, a publicação falha e **o site anterior continua no ar**.
+Sem a variável `API_URL` o build **também falha** (para nunca publicar os preços de exemplo).
+
+Atenção: o GitHub desliga workflows agendados depois de 60 dias sem nenhuma atividade no repositório.
+Se isso acontecer, basta rodar o workflow uma vez pela aba *Actions* (ou usar o botão do sistema) para reativar.
 
 ## Configuração
 - `site.config.json`: nome, WhatsApp, endereço (com `lat`/`lng` quando houver o pin exato), horário, Instagram.

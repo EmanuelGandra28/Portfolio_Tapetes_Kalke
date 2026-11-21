@@ -3,21 +3,28 @@
 // erro (código 1): o workflow falha e o site anterior continua no ar.
 import { rm, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { baseDaApi, buscarComRetentativa, normalizarCatalogo } from './lib/api.mjs';
+import { baseDaApi, buscarComRetentativa, decidirOrigem, normalizarCatalogo } from './lib/api.mjs';
 import { gravarJson, reduzirFoto } from './lib/fotos.mjs';
 
 const raiz = fileURLToPath(new URL('..', import.meta.url));
 const arquivoCatalogo = `${raiz}src/data/catalogo.json`;
 const pastaFotos = `${raiz}public/fotos`;
 
-const apiUrl = (process.env.API_URL ?? '').trim();
 await rm(arquivoCatalogo, { force: true });
 await rm(pastaFotos, { recursive: true, force: true });
 
-if (!apiUrl) {
-  console.log('[catalogo] API_URL não definida: usando o catálogo de exemplo.');
+let origem;
+try {
+  origem = decidirOrigem(process.env);
+} catch (erro) {
+  console.error(`[catalogo] FALHOU: ${erro.message}`);
+  process.exit(1);
+}
+if (origem === 'exemplo') {
+  console.log('[catalogo] Usando o catálogo de EXEMPLO (preços fictícios).');
   process.exit(0);
 }
+const apiUrl = process.env.API_URL.trim();
 
 try {
   const base = baseDaApi(apiUrl);

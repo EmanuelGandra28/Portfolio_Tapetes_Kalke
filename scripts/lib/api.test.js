@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buscarComRetentativa, normalizarCatalogo } from './api.mjs';
+import { buscarComRetentativa, decidirOrigem, normalizarCatalogo } from './api.mjs';
 
 const resp = (status) => ({ status, ok: status >= 200 && status < 300 });
 const semEspera = () => Promise.resolve();
@@ -58,7 +58,31 @@ describe('normalizarCatalogo', () => {
     const c = normalizarCatalogo({ produtos: [item({ precoCusto: 5, estoqueComercial: 3, observacoes: 'x' })] });
     expect(Object.keys(c.produtos[0]).sort()).toEqual(['cor', 'descricao', 'fotos', 'id', 'linha', 'modo', 'nome', 'ordem', 'preco', 'selo', 'tamanho']);
   });
-  it('resposta vazia vira catálogo sem produtos', () => {
-    expect(normalizarCatalogo(null).produtos).toEqual([]);
+});
+
+describe('normalizarCatalogo com resposta inesperada', () => {
+  it('rejeita resposta 200 sem a lista de produtos (não publica site vazio)', () => {
+    expect(() => normalizarCatalogo({ success: true, data: null })).toThrow(/produtos/);
+    expect(() => normalizarCatalogo({ outra: 'coisa' })).toThrow(/produtos/);
+    expect(() => normalizarCatalogo(null)).toThrow(/produtos/);
+  });
+  it('aceita uma lista vazia de verdade (loja ainda sem tapetes marcados)', () => {
+    expect(normalizarCatalogo({ data: { produtos: [] } }).produtos).toEqual([]);
+  });
+});
+
+describe('decidirOrigem', () => {
+  it('com API_URL usa a API', () => {
+    expect(decidirOrigem({ API_URL: 'https://x' })).toBe('api');
+  });
+  it('sem API_URL fora do CI (desenvolvimento) usa o exemplo', () => {
+    expect(decidirOrigem({})).toBe('exemplo');
+  });
+  it('sem API_URL no GitHub Actions falha, para não publicar preços de exemplo', () => {
+    expect(() => decidirOrigem({ GITHUB_ACTIONS: 'true' })).toThrow(/API_URL/);
+    expect(() => decidirOrigem({ CI: 'true', API_URL: '  ' })).toThrow(/API_URL/);
+  });
+  it('no CI só aceita o exemplo com PERMITIR_EXEMPLO=1', () => {
+    expect(decidirOrigem({ GITHUB_ACTIONS: 'true', PERMITIR_EXEMPLO: '1' })).toBe('exemplo');
   });
 });
