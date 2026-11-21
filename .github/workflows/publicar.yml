@@ -1,0 +1,48 @@
+name: Publicar site
+
+# Publica o site no GitHub Pages. Roda sozinho a cada 6 horas, quando o código muda,
+# manualmente (aba Actions) e quando o botão "Atualizar site" do sistema dispara o workflow.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Gerar o site
+        env:
+          # Endereço da API no Render (Settings > Secrets and variables > Actions > Variables).
+          # Se a API não responder, o build falha e o site anterior continua no ar.
+          API_URL: ${{ vars.API_URL }}
+        run: npm run build
+      - run: touch dist/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
