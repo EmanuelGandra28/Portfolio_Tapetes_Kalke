@@ -1,0 +1,36 @@
+---
+import Pagina from '../../layouts/Pagina.astro';
+import GaleriaProduto from '../../components/GaleriaProduto.jsx';
+import BotaoAdicionar from '../../components/BotaoAdicionar.jsx';
+import { carregarCatalogo, caminho, formatarPreco, fotoPrincipal, urlFoto, temPreco } from '../../lib/catalogo.js';
+
+export async function getStaticPaths() {
+  const cat = await carregarCatalogo();
+  return cat.vendas.map((produto) => ({ params: { id: produto.id }, props: { produto } }));
+}
+
+const { produto } = Astro.props;
+const foto = fotoPrincipal(produto);
+const ROTULOS = { BANHEIRO: 'Banheiro', COZINHA: 'Cozinha', SALA: 'Sala', OUTRA: 'Outros' };
+const descricao = produto.descricao || `${produto.nome} · Tapetes Kalke, feitos à mão em Domingos Martins – ES.`;
+---
+<Pagina titulo={produto.nome} descricao={descricao} imagem={foto ? urlFoto(foto.id, 'g') : undefined}>
+  <a class="voltar" href={caminho('/#catalogo')}>← Voltar ao catálogo</a>
+  <div class="detalhe">
+    <GaleriaProduto client:load produto={produto} />
+    <div class="detalhe-info">
+      <h1>{produto.nome}</h1>
+      <p class="preco" style={temPreco(produto) ? undefined : 'color:var(--muted);font-size:1.1rem'}>{formatarPreco(produto.preco)}</p>
+      {produto.descricao && <p>{produto.descricao}</p>}
+      <dl>
+        {produto.linha && <><dt>Linha</dt><dd>{ROTULOS[produto.linha] ?? produto.linha}</dd></>}
+        {produto.tamanho && <><dt>Tamanho</dt><dd>{produto.tamanho}</dd></>}
+        {produto.cor && <><dt>Cores</dt><dd>{produto.cor}</dd></>}
+      </dl>
+      <div class="detalhe-acoes">
+        <BotaoAdicionar client:load id={produto.id} grande />
+        <a class="btn contorno" href={caminho('/permita-se-criar/')}>Quero um parecido, do meu jeito</a>
+      </div>
+    </div>
+  </div>
+</Pagina>

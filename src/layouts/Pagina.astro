@@ -1,0 +1,19 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import Rodape from '../components/Rodape.astro';
+import '../styles/site.css';
+import { carregarCatalogo } from '../lib/catalogo.js';
+
+const { titulo, descricao, imagem } = Astro.props;
+const cat = await carregarCatalogo();
+// Só o necessário vai para o navegador (nunca campos internos).
+const paraPedido = cat.vendas.map((p) => ({ id: p.id, nome: p.nome, tamanho: p.tamanho, preco: p.preco }));
+---
+<Base titulo={titulo} descricao={descricao} imagem={imagem}>
+  <Nav produtos={paraPedido} />
+  <main class="miolo">
+    <div class="container"><slot /></div>
+  </main>
+  <Rodape />
+</Base>

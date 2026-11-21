@@ -1,0 +1,11 @@
+---
+import Pagina from '../layouts/Pagina.astro';
+import { caminho } from '../lib/catalogo.js';
+---
+<Pagina titulo="Página não encontrada" descricao="Não encontramos essa página.">
+  <div class="vazio-pagina">
+    <h1>Não encontramos essa página</h1>
+    <p>Ela pode ter mudado de lugar. Que tal ver os nossos tapetes?</p>
+    <a class="btn" href={caminho('/#catalogo')}>Ver catálogo</a>
+  </div>
+</Pagina>

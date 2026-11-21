@@ -1,0 +1,12 @@
+---
+import Pagina from '../layouts/Pagina.astro';
+import FormCriar from '../components/FormCriar.jsx';
+import config from '../../site.config.json';
+---
+<Pagina titulo="Permita-se Criar" descricao="Conte sua ideia e peça um tapete feito do seu jeito. O orçamento chega pelo WhatsApp.">
+  <section class="secao" style="padding-top:8px">
+    <h1>Permita-se Criar</h1>
+    <p class="sub">Conte como imagina o seu tapete. Nós preparamos um orçamento.</p>
+    <FormCriar client:load whatsapp={config.whatsapp} />
+  </section>
+</Pagina>
