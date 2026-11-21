@@ -1,0 +1,26 @@
+.pedido-botao { background: none; border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; padding: 7px 14px; font: 600 .9rem var(--sans); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.pedido-botao:hover { background: var(--primary-soft); }
+.pedido-contador { background: var(--accent); color: var(--primary-dark); border-radius: 12px; padding: 0 8px; font-weight: 700; font-size: .8rem; }
+.pedido-fundo { position: fixed; inset: 0; background: rgba(22,59,48,.5); z-index: 100; display: flex; justify-content: flex-end; }
+.pedido-painel { width: min(420px, 100%); height: 100%; background: #fff; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+.pedido-painel header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.pedido-painel h2 { margin: 0; }
+.pedido-fechar { background: none; border: 0; font-size: 2rem; line-height: 1; cursor: pointer; color: var(--muted); }
+.pedido-vazio { text-align: center; padding: 40px 0; color: var(--muted); }
+.pedido-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.pedido-lista li { display: flex; justify-content: space-between; gap: 10px; border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; }
+.pedido-info { display: grid; font-size: .9rem; }
+.pedido-info span { color: var(--muted); }
+.pedido-info .pedido-preco { color: var(--primary); font-weight: 700; }
+.pedido-qtd { display: flex; align-items: center; gap: 8px; }
+.pedido-qtd button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border); background: var(--primary-soft); color: var(--primary); font-size: 1.1rem; cursor: pointer; }
+.pedido-previa { margin: 14px 0; font-size: .85rem; color: var(--muted); }
+.pedido-previa pre { white-space: pre-wrap; background: #dcf8c6; color: #1b2a20; border-radius: var(--radius); padding: 10px; font: inherit; }
+.pedido-painel footer { margin-top: auto; display: grid; gap: 8px; text-align: center; }
+.pedido-total { margin: 0; }
+.pedido-aviso { margin: 0; font-size: .8rem; color: var(--muted); }
+.pedido-limpar { background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; }
+.add-pedido { width: 100%; border: 0; border-radius: 6px; padding: 9px; background: var(--primary-soft); color: var(--primary); font: 700 .85rem var(--sans); cursor: pointer; }
+.add-pedido:hover { background: #d3e3da; }
+.add-pedido.dentro { background: var(--primary); color: #fff; }
+.add-pedido.grande { padding: 14px; font-size: 1rem; }
