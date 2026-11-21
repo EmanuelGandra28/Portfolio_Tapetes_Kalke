@@ -1,0 +1,37 @@
+---
+import Pedido from './Pedido.jsx';
+import config from '../../site.config.json';
+import { caminho } from '../lib/catalogo.js';
+const { produtos } = Astro.props;
+const itensMenu = [
+  ['Início', caminho('/')],
+  ['Catálogo', caminho('/#catalogo')],
+  ['Permita-se Criar', caminho('/permita-se-criar/')],
+  ['Como funciona', caminho('/#como-funciona')],
+  ['Contato', caminho('/#contato')],
+];
+---
+<header class="nav">
+  <div class="container nav-linha">
+    <a class="logo" href={caminho('/')} aria-label={`${config.nome}, início`}>
+      <svg viewBox="0 0 60 60" width="30" height="30" aria-hidden="true">
+        <path d="M30 3 57 30 30 57 3 30Z" fill="#1c5c46" />
+        <path d="M30 11 49 30 30 49 11 30Z" fill="none" stroke="#c8a24a" stroke-width="2" />
+        <text x="30" y="36" text-anchor="middle" font-family="Georgia, serif" font-size="16" font-weight="700" fill="#fff">TK</text>
+      </svg>
+      <span>Tapetes <b>Kalke</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Principal">
+      {itensMenu.map(([rotulo, href]) => <a href={href}>{rotulo}</a>)}
+    </nav>
+    <div class="nav-acoes">
+      <Pedido client:load produtos={produtos} whatsapp={config.whatsapp} catalogoUrl={caminho('/#catalogo')} />
+      <details class="nav-menu">
+        <summary aria-label="Abrir menu">☰</summary>
+        <nav aria-label="Menu do celular">
+          {itensMenu.map(([rotulo, href]) => <a href={href}>{rotulo}</a>)}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

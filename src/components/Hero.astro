@@ -1,0 +1,20 @@
+---
+import config from '../../site.config.json';
+import { caminho, fotoPrincipal, urlFoto } from '../lib/catalogo.js';
+const { destaque } = Astro.props;
+const foto = destaque ? fotoPrincipal(destaque) : null;
+const fundo = foto ? `url(${urlFoto(foto.id, 'g')})` : undefined;
+---
+<section class="hero" style={fundo ? `background-image: ${fundo}` : undefined}>
+  <div class="container hero-conteudo">
+    <div class="hero-cartao">
+      <small>{config.slogan.toUpperCase()}</small>
+      <h1>{config.fraseTopo}</h1>
+      <p>{config.subfrase}</p>
+      <div class="hero-botoes">
+        <a class="btn" href={caminho('/#catalogo')}>Ver catálogo</a>
+        <a class="btn contorno" href={caminho('/permita-se-criar/')}>Permita-se Criar</a>
+      </div>
+    </div>
+  </div>
+</section>

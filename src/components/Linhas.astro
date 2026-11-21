@@ -1,0 +1,25 @@
+---
+import FotoTapete from './FotoTapete.jsx';
+import { caminho } from '../lib/catalogo.js';
+const { linhas, galeria } = Astro.props;
+// Cada quadro usa a foto do primeiro tapete da linha; a linha só aparece se tiver tapetes.
+const quadros = [
+  linhas.BANHEIRO && { titulo: 'Conjunto de Banheiro', href: caminho('/#linha-BANHEIRO'), produto: linhas.BANHEIRO[0] },
+  linhas.COZINHA && { titulo: 'Conjunto de Cozinha', href: caminho('/#linha-COZINHA'), produto: linhas.COZINHA[0] },
+  { titulo: 'Permita-se Criar', href: caminho('/permita-se-criar/'), produto: galeria[0] ?? { id: 'criar', nome: 'Permita-se Criar', fotos: [] } },
+].filter(Boolean);
+---
+<section class="secao">
+  <div class="container">
+    <h2>Escolha a sua linha</h2>
+    <p class="sub">Conjuntos prontos e peças feitas do seu jeito</p>
+    <div class="linhas">
+      {quadros.map((q) => (
+        <a class="linha" href={q.href}>
+          <FotoTapete produto={q.produto} tamanho="g" className="linha-foto" />
+          <b>{q.titulo}</b>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

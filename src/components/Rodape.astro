@@ -1,0 +1,41 @@
+---
+import CopiarEndereco from './CopiarEndereco.jsx';
+import config from '../../site.config.json';
+import { caminho } from '../lib/catalogo.js';
+import { linkWhatsapp } from '../lib/whatsapp.js';
+import { googleMapsUrl, wazeUrl, appleMapsUrl, mapaEmbedUrl, textoEndereco } from '../lib/rotas.js';
+const e = config.endereco;
+---
+<footer class="rodape" id="contato">
+  <div class="container rodape-grade">
+    <div>
+      <h3>{config.nome}</h3>
+      <p>{config.slogan} feitos à mão.<br />Encomendas pelo WhatsApp.</p>
+      <a class="btn wa" href={linkWhatsapp(config.whatsapp, 'Olá! Vim pelo site da Tapetes Kalke.')} target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <p class="rodape-tel">{config.telefoneExibido}</p>
+      {config.instagram && <p><a href={config.instagram} target="_blank" rel="noopener">Instagram</a></p>}
+    </div>
+    <div>
+      <h3>Navegue</h3>
+      <ul class="rodape-lista">
+        <li><a href={caminho('/')}>Início</a></li>
+        <li><a href={caminho('/#catalogo')}>Catálogo</a></li>
+        <li><a href={caminho('/permita-se-criar/')}>Permita-se Criar</a></li>
+        <li><a href={caminho('/#como-funciona')}>Como funciona</a></li>
+      </ul>
+    </div>
+    <div class="rodape-local">
+      <h3>Encontre-nos</h3>
+      <p>{e.linha1}<br />{e.cidade}<br /><span class="dourado">{e.complemento}</span></p>
+      {config.horario && <p>{config.horario}</p>}
+      <iframe class="mapa" title={`Mapa: ${textoEndereco(e)}`} src={mapaEmbedUrl(e)} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="rotas">
+        <a class="rota" href={googleMapsUrl(e)} target="_blank" rel="noopener">Google Maps</a>
+        <a class="rota" href={wazeUrl(e)} target="_blank" rel="noopener">Waze</a>
+        <a class="rota" href={appleMapsUrl(e)} target="_blank" rel="noopener">Apple Maps</a>
+        <CopiarEndereco client:visible texto={textoEndereco(e)} />
+      </div>
+    </div>
+  </div>
+  <div class="rodape-fim">© {new Date().getFullYear()} {config.nome} · {config.slogan}</div>
+</footer>

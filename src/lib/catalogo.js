@@ -26,7 +26,10 @@ export function fotoPrincipal(p) {
   return fotos.find((f) => f.principal) ?? [...fotos].sort((a, b) => a.ordem - b.ordem)[0];
 }
 
-export const urlFoto = (id, tamanho) => `${base()}/fotos/${id}-${tamanho}.webp`;
+// Caminho interno do site respeitando o endereço base do GitHub Pages.
+export const caminho = (p) => `${base()}${p}`;
+
+export const urlFoto =(id, tamanho) => `${base()}/fotos/${id}-${tamanho}.webp`;
 
 export function agruparPorLinha(produtos) {
   const grupos = {};

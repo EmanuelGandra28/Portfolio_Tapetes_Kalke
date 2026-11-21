@@ -1,0 +1,19 @@
+---
+const passos = [
+  ['1', 'Escolha', 'Monte o seu pedido ou conte a sua ideia.'],
+  ['2', 'WhatsApp', 'Conversamos e tiramos todas as dúvidas.'],
+  ['3', 'Combinamos', 'Prazo, entrega e forma de pagamento.'],
+  ['4', 'Receba', 'Seu tapete chega feito com carinho.'],
+];
+---
+<section class="secao como" id="como-funciona">
+  <div class="container">
+    <h2>Como funciona</h2>
+    <p class="sub">Do pedido à entrega, simples assim</p>
+    <ol class="passos">
+      {passos.map(([n, titulo, texto]) => (
+        <li><span class="passo-n">{n}</span><b>{titulo}</b><span>{texto}</span></li>
+      ))}
+    </ol>
+  </div>
+</section>

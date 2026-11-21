@@ -1,0 +1,17 @@
+---
+import FotoTapete from './FotoTapete.jsx';
+const { itens, exemplo } = Astro.props;
+// No site real só entram trabalhos com foto; no catálogo de exemplo mostramos os quadros de lugar.
+const mostrar = (exemplo ? itens : itens.filter((p) => (p.fotos ?? []).length > 0)).slice(0, 6);
+---
+{mostrar.length > 0 && (
+  <section class="secao">
+    <div class="container">
+      <h2>Feitos com carinho</h2>
+      <p class="sub">Alguns dos trabalhos que já saíram do nosso ateliê</p>
+      <div class="galeria">
+        {mostrar.map((p) => <FotoTapete produto={p} tamanho="g" className="galeria-foto" />)}
+      </div>
+    </div>
+  </section>
+)}

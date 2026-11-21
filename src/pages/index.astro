@@ -1,4 +1,40 @@
 ---
 import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Linhas from '../components/Linhas.astro';
+import Produtos from '../components/Produtos.jsx';
+import CriarBanner from '../components/CriarBanner.astro';
+import Galeria from '../components/Galeria.astro';
+import ComoFunciona from '../components/ComoFunciona.astro';
+import Rodape from '../components/Rodape.astro';
+import '../styles/site.css';
+import config from '../../site.config.json';
+import { carregarCatalogo, caminho, fotoPrincipal, urlFoto } from '../lib/catalogo.js';
+
+const cat = await carregarCatalogo();
+const destaque = cat.vendas.find((p) => fotoPrincipal(p)) ?? null;
+const foto = destaque ? fotoPrincipal(destaque) : null;
+// Só o necessário vai para o navegador (nunca campos internos).
+const paraPedido = cat.vendas.map((p) => ({ id: p.id, nome: p.nome, tamanho: p.tamanho, preco: p.preco }));
 ---
-<Base><main class="container secao"><h1>Tapetes Kalke</h1></main></Base>
+<Base descricao={`${config.fraseTopo}. ${config.subfrase}`} imagem={foto ? urlFoto(foto.id, 'g') : undefined}>
+  <Nav produtos={paraPedido} />
+  <main>
+    <Hero destaque={destaque} />
+    <Linhas linhas={cat.linhas} galeria={cat.galeria} />
+    {cat.vendas.length > 0 && (
+      <section class="secao catalogo" id="catalogo">
+        <div class="container">
+          <h2>Nossos tapetes</h2>
+          <p class="sub">Toque em um tapete para ver as fotos ou adicione ao seu pedido</p>
+          <Produtos client:load produtos={cat.vendas} base={caminho('')} />
+        </div>
+      </section>
+    )}
+    <CriarBanner />
+    <Galeria itens={cat.galeria} exemplo={cat.exemplo} />
+    <ComoFunciona />
+  </main>
+  <Rodape />
+</Base>
