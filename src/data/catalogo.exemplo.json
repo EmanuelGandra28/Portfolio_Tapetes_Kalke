@@ -1,0 +1,13 @@
+{
+  "geradoEm": "exemplo",
+  "produtos": [
+    { "id": "ex-cogumelos", "nome": "Conjunto Cogumelos", "linha": "COZINHA", "descricao": "Três peças com cogumelos vermelhos e flores, para dar alegria à cozinha.", "cor": "Vermelho e bege", "tamanho": "3 peças", "preco": 129.9, "selo": "Mais pedido", "ordem": 1, "modo": "VENDA", "fotos": [] },
+    { "id": "ex-tulipas", "nome": "Conjunto Tulipas", "linha": "BANHEIRO", "descricao": "Tulipas vermelhas e amarelas em um conjunto de banheiro cheio de charme.", "cor": "Vermelho e amarelo", "tamanho": "3 peças", "preco": 119.9, "selo": null, "ordem": 2, "modo": "VENDA", "fotos": [] },
+    { "id": "ex-girassois", "nome": "Conjunto Girassóis", "linha": "COZINHA", "descricao": "Girassóis que trazem o sol para dentro de casa.", "cor": "Amarelo e verde", "tamanho": "3 peças", "preco": 129.9, "selo": null, "ordem": 3, "modo": "VENDA", "fotos": [] },
+    { "id": "ex-borboletas", "nome": "Conjunto Borboletas", "linha": "BANHEIRO", "descricao": "Borboletas delicadas em tons suaves.", "cor": "Rosa e verde", "tamanho": "3 peças", "preco": 119.9, "selo": "Novo", "ordem": 4, "modo": "VENDA", "fotos": [] },
+    { "id": "ex-galeria-1", "nome": "Tapete personalizado de sala", "linha": "SALA", "descricao": "", "cor": "", "tamanho": "", "preco": null, "selo": null, "ordem": 10, "modo": "GALERIA", "fotos": [] },
+    { "id": "ex-galeria-2", "nome": "Passadeira sob medida", "linha": "OUTRA", "descricao": "", "cor": "", "tamanho": "", "preco": null, "selo": null, "ordem": 11, "modo": "GALERIA", "fotos": [] },
+    { "id": "ex-galeria-3", "nome": "Conjunto de banheiro personalizado", "linha": "BANHEIRO", "descricao": "", "cor": "", "tamanho": "", "preco": null, "selo": null, "ordem": 12, "modo": "GALERIA", "fotos": [] },
+    { "id": "ex-galeria-4", "nome": "Tapete de cozinha personalizado", "linha": "COZINHA", "descricao": "", "cor": "", "tamanho": "", "preco": null, "selo": null, "ordem": 13, "modo": "GALERIA", "fotos": [] }
+  ]
+}
